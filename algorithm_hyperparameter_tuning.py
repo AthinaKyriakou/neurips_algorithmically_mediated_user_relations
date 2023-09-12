@@ -57,7 +57,11 @@ if not os.path.exists(result_folder_path):
     os.makedirs(result_folder_path)
 
 collaborative_algorithm_list = [
-    PureSVDRecommender,
+    #UserKNNCFRecommender,
+    #ItemKNNCFRecommender,
+    RP3betaRecommender,
+    #EASE_R_Recommender,
+    #PureSVDRecommender,
     #MatrixFactorization_FunkSVD_Cython,
     ]
 metric_to_optimize = "NDCG" # might need to add more
@@ -76,8 +80,8 @@ n_random_starts = 15
 #evaluator_test = EvaluatorNegativeItemSample(URM_test, URM_test_negative, cutoff_list=cutoff_list_test)
 
 # Approach 2: NeuRec
-max_cutoff = URM_train.shape[1]-1
 
+max_cutoff = URM_train.shape[1]-1
 cutoff_list_validation = [10]
 cutoff_list_test=[5, 10, 50, max_cutoff]
 evaluator_validation = EvaluatorHoldout(URM_validation, cutoff_list=cutoff_list_validation)
@@ -104,83 +108,3 @@ for recommender_class in collaborative_algorithm_list:
     except Exception as e:
         print("On recommender {} Exception {}".format(recommender_class, str(e)))
         traceback.print_exc()
-
-
-#sys.exit()
-
-'''
-# load row mapper (users): key (numpy.int64), value(numpy.int64)
-row_mapper_path = '/Users/athina/Desktop/Research/Experiments/User_Interconnectedness/Data/MovieLens_100k/trainsets_0.8/row_mapper_dict.pkl'
-with open(row_mapper_path, 'rb') as fp:
-    row_mapper_dict = pickle.load(fp)
-    #print('Row mapper dict')
-    #print(row_mapper_dict)
-
-# load col mapper (items): key (numpy.int64), value(numpy.int64)
-col_mapper_path = '/Users/athina/Desktop/Research/Experiments/User_Interconnectedness/Data/MovieLens_100k/trainsets_0.8/row_mapper_dict.pkl'
-with open(col_mapper_path, 'rb') as fp:
-    col_mapper_dict = pickle.load(fp)
-    #print('\n\nCol mapper dict')
-    #print(col_mapper_dict)
-
-n_rows = 943 #num_users
-n_cols = 1682 #num_items
-
-# create the sparse matrix of the training set
-trainPath = '/Users/athina/Desktop/Research/Experiments/User_Interconnectedness/Data/MovieLens_100k/trainsets_0.8/set_17/trainset.csv'
-#URM_trainset_builder = IncrementalSparseMatrix_FilterIDs(preinitialized_col_mapper = col_mapper_dict, on_new_col = "ignore", preinitialized_row_mapper = row_mapper_dict, on_new_row = "ignore")
-train_df = pd.read_csv(trainPath, sep=',', header=0, usecols=[COL_USER, COL_ITEM, COL_RATING], dtype={COL_USER:np.int64, COL_ITEM:np.int64, COL_RATING:np.float64})
-train_df.columns = [COL_USER, COL_ITEM, COL_RATING]
-train_user_id_list = train_df[COL_USER].values
-train_item_id_list = train_df[COL_ITEM].values
-train_rating_list = train_df[COL_RATING].values
-URM_trainset_builder = IncrementalSparseMatrix(auto_create_col_mapper = col_mapper_dict, auto_create_row_mapper = row_mapper_dict, n_rows=n_rows, n_cols=n_cols)
-URM_trainset_builder.add_data_lists(train_user_id_list, train_item_id_list, train_rating_list) 
-URM_train = URM_trainset_builder.get_SparseMatrix()
-
-# create the sparse matrix of the validation set
-validationPath = '/Users/athina/Desktop/Research/Experiments/User_Interconnectedness/Data/MovieLens_100k/trainsets_0.8/set_17/validation.csv'
-#URM_validation_builder = IncrementalSparseMatrix_FilterIDs(preinitialized_col_mapper = col_mapper_dict, on_new_col = "ignore", preinitialized_row_mapper = row_mapper_dict, on_new_row = "ignore")
-validation_df = pd.read_csv(validationPath, sep=',', header=0, usecols=[COL_USER, COL_ITEM, COL_RATING], dtype={COL_USER:np.int64, COL_ITEM:np.int64, COL_RATING:np.float64})
-validation_df.columns = [COL_USER, COL_ITEM, COL_RATING]
-validation_user_id_list = validation_df[COL_USER].values
-validation_item_id_list = validation_df[COL_ITEM].values
-validation_rating_list = validation_df[COL_RATING].values
-URM_validation_builder = IncrementalSparseMatrix(auto_create_col_mapper = col_mapper_dict, auto_create_row_mapper = row_mapper_dict, n_rows=n_rows, n_cols=n_cols)
-URM_validation_builder.add_data_lists(validation_user_id_list, validation_item_id_list, validation_rating_list) 
-URM_validation = URM_validation_builder.get_SparseMatrix()
-
-# create the test and the test_negative sets
-testPath = '/Users/athina/Desktop/Research/Experiments/User_Interconnectedness/Data/MovieLens_100k/trainsets_0.8/set_17/testset.csv'
-#URM_testset_builder = IncrementalSparseMatrix_FilterIDs(preinitialized_col_mapper = col_mapper_dict, on_new_col = "ignore", preinitialized_row_mapper = row_mapper_dict, on_new_row = "ignore")
-test_df = pd.read_csv(testPath, sep=',', header=0, usecols=[COL_USER, COL_ITEM, COL_RATING], dtype={COL_USER:np.int64, COL_ITEM:np.int64, COL_RATING:np.float64})
-test_df.columns = [COL_USER, COL_ITEM, COL_RATING]
-test_user_id_list = test_df[COL_USER].values
-test_item_id_list = test_df[COL_ITEM].values
-test_rating_list = test_df[COL_RATING].values
-URM_testset_builder = IncrementalSparseMatrix(auto_create_col_mapper = col_mapper_dict, auto_create_row_mapper = row_mapper_dict, n_rows=n_rows, n_cols=n_cols)
-URM_testset_builder.add_data_lists(test_user_id_list, test_item_id_list, test_rating_list)
-URM_test = URM_testset_builder.get_SparseMatrix()
-
-assert_disjoint_matrices([URM_train, URM_validation, URM_test]) #PROB - need to check how the empty ones are filled and what happens with the sizes
-'''
-#print("Training set (num_users, num_items):", URM_train.shape)
-#print("Validation set (num_users, num_items):", URM_validation.shape)
-#print("Test set (num_users, num_items):", URM_test.shape)
-
-# example fit
-#recommender = MatrixFactorization_FunkSVD_Cython(URM_train)
-#recommender.fit()
-#results_dict, results_run_string = evaluator_validation.evaluateRecommender(recommender)
-#print("Result of P3alpha is:\n" + results_run_string)
-
-'''
-# understand hyperparams and check what I need to provide
-def runParameterSearch_Collaborative(recommender_class, URM_train, URM_train_last_test = None,
-                                     n_cases = 35, n_random_starts = 5, resume_from_saved = False,
-                                     save_model = "best",  evaluate_on_test = "best",
-                                     evaluator_validation = None, evaluator_test = None, evaluator_validation_earlystopping = None,
-                                     metric_to_optimize = "PRECISION",
-                                     output_folder_path ="result_experiments/", parallelizeKNN = True,
-                                     allow_weighting = True,similarity_type_list = None):
-'''

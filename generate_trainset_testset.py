@@ -1,5 +1,4 @@
 # Generate training and test sets
-# To execute /opt/miniconda3/envs/user_intercon_env/bin/python 1_generate_trainset_testset.py
 
 import os, math
 import numpy as np

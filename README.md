@@ -37,12 +37,3 @@ The splitted train, test, and validation sets per random seed are in `./Data/`.
 The implemented algorithms and tuning source code of [Dacrema et. al](https://github.com/MaurizioFD/RecSys2019_DeepLearning_Evaluation) are used. 
 
 For hyperparameter tuning, set the flag `operation` to `algorithm_hyperparameter_tuning` on `flagfile.cfg`.
-
-## Model Training & Prediction
-Code: `train_varying_factors.py`
-Code: `train_varying_factors.py`
-
-## Computation of Influence
-
-## Ploting
-Code: `check_independence_assumption.py`

@@ -1,4 +1,4 @@
-# Generate training and test sets
+# Generate training and test sets and compute dataset statistics
 
 import os, math
 import numpy as np

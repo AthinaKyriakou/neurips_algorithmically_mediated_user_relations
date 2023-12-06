@@ -1,10 +1,8 @@
 # Algorithmically Mediated User Relations: Exploring Data's Relationality in Recommender Systems
 
-Repository for the paper "Algorithmically Mediated User Relations: Exploring Data’s Relationality in Recommender Systems" to be presented in the [Regulatable ML Workshop @ NeurIPS 2023](https://regulatableml.github.io).
+Repository for the [paper](https://github.com/AthinaKyriakou/algorithmically_mediated_user_relations/blob/main/RegulatableML_NeurIPS2023_data_governance_social_relations.pdf) "Algorithmically Mediated User Relations: Exploring Data’s Relationality in Recommender Systems" to be presented in the [Regulatable ML Workshop @ NeurIPS 2023](https://regulatableml.github.io).
 
 ## About the Project
-
-You can read the submitted paper [here]().
 
 ## Installation
 To install the needed dependencies run:

@@ -1,6 +1,10 @@
 # Algorithmically Mediated User Relations: Exploring Data's Relationality in Recommender Systems
 
-This repository contains the code for the paper "Algorithmically Mediated User Relations: Exploring Data’s Relationality in Recommender Systems".
+Repository for the paper "Algorithmically Mediated User Relations: Exploring Data’s Relationality in Recommender Systems" to be presented in the [Regulatable ML Workshop @ NeurIPS 2023](https://regulatableml.github.io).
+
+## About the Project
+
+You can read the submitted paper [here]().
 
 ## Installation
 To install the needed dependencies run:
@@ -21,7 +25,7 @@ Specify all relevant parameters on `flagfile.cfg`. The flags to be specified are
 |        dataset         |                  the dataset to be used              | 'MovieLens_100k'|
 |       algorithm        |  the algorithm to be used for tuning, training, etc. | ['UserKNNCFRecommender', 'MatrixFactorization_FunkSVD_Cython'] |
 |       operation        |                  the operation to execute            | ['get_dataset_statistics','generate_trainset_testset', 'algorithm_hyperparameter_tuning'] |
-|   ratio_split_train    |           the desired train-test splitting ratio     | float in [0,1]
+|   ratio_split_train    |           the desired train-test splitting ratio     | float in [0,1] |
 | ratio_split_validation |      the desired train-validation splitting ratio    | float in [0,1] |
 
 ## Data Preprocessing

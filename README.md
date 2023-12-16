@@ -41,11 +41,16 @@ The implemented algorithms and tuning source code of [Dacrema et. al](https://gi
 
 For hyperparameter tuning, set the flag `operation` to `algorithm_hyperparameter_tuning` on `flagfile.cfg`.
 
-## Model Training & Prediction
-Code: `train_varying_factors.py`
-Code: `train_varying_factors.py`
-
 ## Computation of Influence
 
+### Individual Influence
+
+Set the flag `operation` to `compute_individual_influences` on `flagfile.cfg`.
+
+### Group Influence
+
+Set the flag `operation` to `compute_group_influences` on `flagfile.cfg`.
+
 ## Ploting
-Code: `check_independence_assumption.py`
+
+Set the flag `operation` to `check_independence_assumption` on `flagfile.cfg`.

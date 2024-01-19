@@ -2,6 +2,7 @@
 
 import os, math
 import numpy as np
+import pandas as pd
 from recommenders.datasets import movielens
 from recommenders.datasets.python_splitters import python_stratified_split, python_random_split
 from Data.utils import df_space, df_shape, df_density, df_gini_user, df_gini_item
@@ -14,7 +15,9 @@ from absl import flags
 FLAGS = flags.FLAGS
 
 def load_dataset(dataset_name):
-    if dataset_name == 'MovieLens_100k':
+    if dataset_name == 'sample_test':
+        data_df = pd.read_csv('./Data/sample_test/sample_test.csv')
+    elif dataset_name == 'MovieLens_100k':
         data_df = movielens.load_pandas_df(size='100k', header=[FLAGS.col_user, FLAGS.col_item, FLAGS.col_rating])
     elif dataset_name == 'MovieLens_1M':
         data_df = movielens.load_pandas_df(size='1M', header=[FLAGS.col_user, FLAGS.col_item, FLAGS.col_rating])
@@ -25,8 +28,8 @@ def get_dataset_statistics(dataset_name):
     data_df = load_dataset(dataset_name)
 
     # Dataset properties: log space, log shape, log density, gini user, gini item
-    num_users = max(data_df[FLAGS.col_user]) # numpy.int64
-    num_items = max(data_df[FLAGS.col_item]) # numpy.int64
+    num_users = len(data_df[FLAGS.col_user].unique()) # numpy.int64
+    num_items = len(data_df[FLAGS.col_item].unique()) # numpy.int64
     print("\nStatistics for:", dataset_name)
     print("#Users: ", num_users)
     print("#Items: ", num_items)
@@ -38,14 +41,10 @@ def get_dataset_statistics(dataset_name):
     print("userGini: ", round(df_gini_user(data_df, FLAGS.col_user), 3))
     print("itemGini: ", round(df_gini_item(data_df, FLAGS.col_user), 3))
 
-def generate_trainset_testset(dataset_name, printStatistics=False):
+def generate_trainset_testset(dataset_name):
     
     # load the dataset
     data_df = load_dataset(dataset_name)
-    
-    # print dataset statistics
-    if printStatistics:
-        get_dataset_statistics(dataset_name)
 
     # path setup
     dataPath = './Data/' + dataset_name + '/trainsets_' + str(FLAGS.ratio_split_train) + '/set_' + str(FLAGS.random_seed)
@@ -56,20 +55,30 @@ def generate_trainset_testset(dataset_name, printStatistics=False):
     train_original_df, test_df = python_stratified_split(data_df, filter_by='user', ratio=FLAGS.ratio_split_train, col_user=FLAGS.col_user, col_item=FLAGS.col_item, seed=FLAGS.random_seed)
     train_df, validation_df = python_random_split(train_original_df, ratio=FLAGS.ratio_split_validation, seed=FLAGS.random_seed)
 
-    # print train and testset statistics
+    # print train, validation, and testset statistics
+    print("\ntrainset:")
     user_Ids_train_arr = np.sort(train_df[FLAGS.col_user].unique()) # ints
     num_users_train = len(user_Ids_train_arr)
     item_Ids_train_arr = np.sort(train_df[FLAGS.col_item].unique()) # ints
     num_items_train = len(item_Ids_train_arr)
-    print("trainset num users:", num_users_train)
-    print("trainset num items:", num_items_train)
+    print("#users:", num_users_train)
+    print("#items:", num_items_train)
 
+    print("\nvalidation set:")
+    user_Ids_validation_arr = np.sort(validation_df[FLAGS.col_user].unique()) # ints
+    num_users_validation = len(user_Ids_validation_arr)
+    item_Ids_validation_arr = np.sort(validation_df[FLAGS.col_item].unique()) # ints
+    num_items_validation = len(item_Ids_validation_arr)
+    print("#users:", num_users_validation)
+    print("#items:", num_items_validation)
+
+    print("\ntest set:")
     user_Ids_test_arr = np.sort(test_df[FLAGS.col_user].unique()) # ints
     num_users_test = len(user_Ids_test_arr)
     item_Ids_test_arr = np.sort(test_df[FLAGS.col_item].unique()) # ints
     num_items_test = len(item_Ids_test_arr)
-    print("testset num users:", num_users_test)
-    print("testset num items:", num_items_test)
+    print("#users:", num_users_test)
+    print("#items:", num_items_test)
 
     # save results to csv
     train_original_path = dataPath + '/trainset_original.csv'

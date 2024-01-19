@@ -1,6 +1,6 @@
 # Algorithmically Mediated User Relations: Exploring Data's Relationality in Recommender Systems
 
-Repository for the [paper](https://github.com/AthinaKyriakou/algorithmically_mediated_user_relations/blob/main/RegulatableML_NeurIPS2023_data_governance_social_relations.pdf) "Algorithmically Mediated User Relations: Exploring Data’s Relationality in Recommender Systems" to be presented in the [Regulatable ML Workshop @ NeurIPS 2023](https://regulatableml.github.io).
+Repository for the [paper](https://github.com/AthinaKyriakou/algorithmically_mediated_user_relations/blob/main/RegulatableML_NeurIPS2023_data_governance_social_relations.pdf) "Algorithmically Mediated User Relations: Exploring Data’s Relationality in Recommender Systems" presented in the [Regulatable ML Workshop @ NeurIPS 2023](https://regulatableml.github.io).
 
 ## About the Project
 Personalization services, such as recommender systems, operate on vast amounts of user-item interactions to provide personalized content. To do so, they identify patterns in the available interactions and group users based on pre-existing offline or online social relations, or algorithmically determined similarities and differences. We refer to the relations created between users based on algorithmically determined constructs as algorithmically mediated user relations. Taking as a case study collaborative filtering recommendation algorithms where users are interrelated by design, we empirically examine whether algorithmically mediated user relations should be taken into account in practice when quantifying the influence of users’ data on the recommendations of others.
@@ -64,7 +64,7 @@ As discussed in the paper, we define 2 types of influnce of a group of users. To
     * `find_influential_users.py`:
 * $`I_{relations}`$ set the flag `operation` to `compute_group_influences_relations` on `flagfile.cfg`. Individual influences need to be compute first. Relevant code:
     * `find_influential_users.py`:
-    # `remove_n_train_group.py`
+    * `remove_n_train_group.py`
 
 ## Ploting
 
